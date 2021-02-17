@@ -1,5 +1,5 @@
 import React from 'react'
-import {Switch, Route} from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import './App.css';
 import AboutPage from './components/about/AboutPage';
 import HomePage from './components/home/HomePage';
@@ -7,11 +7,13 @@ import CoursesPage from './components/courses/CoursesPage';
 import Header from './components/common/Header';
 import PageNotFound from './components/PageNotFound';
 import ManageCoursePage from './components/courses/ManageCoursePage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const style ={
+  const style = {
     width: "70%",
-    marginleft:"auto",
+    marginleft: "auto",
     marginright: "auto"
   }
   return (
@@ -25,6 +27,7 @@ function App() {
         <Route path="/course" component={ManageCoursePage} />
         <Route component={PageNotFound} />
       </Switch>
+      <ToastContainer autoClose={3000} hideProgressBar />
     </div>
   );
 }
