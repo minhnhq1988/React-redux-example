@@ -36,6 +36,17 @@ function ManageCoursePage({
         }
     }, [props.course]);
 
+    function formValidate() {
+        const { title, authorId, category } = course;
+        const error ={};
+        if(!title) error.title ="Title is required";
+        if(!authorId) error.author ="Author is required";
+        if(!category) error.category ="Category is required";
+
+        setErrors(error);
+        return Object.keys(error).length === 0;
+    }
+
     function handleChange(event) {
         const { name, value } = event.target;
         setCourse(preCourse => ({
@@ -46,6 +57,7 @@ function ManageCoursePage({
 
     function handleSave(event) {
         event.preventDefault();
+        if(!formValidate()) return;
         setSaving(true);
         saveCourse(course).then(() => {
             toast.success("Course saved.");
@@ -56,12 +68,12 @@ function ManageCoursePage({
         });
     }
 
-    function handleDelete(event){
+    function handleDelete(event) {
         event.preventDefault();
-        deleteCourse(course).then(()=>{
+        deleteCourse(course).then(() => {
             toast.success("Course deleted.");
             history.push("/courses");
-        }).catch(error =>{
+        }).catch(error => {
             throw error;
         });
     }
@@ -75,7 +87,7 @@ function ManageCoursePage({
                 errors={errors}
                 onChange={handleChange}
                 onSave={handleSave}
-                onDelete ={handleDelete}
+                onDelete={handleDelete}
                 saving={saving} />)
 
     );
@@ -100,6 +112,6 @@ const mapDispatchToProps = {
     loadCourses: loadCourses,
     loadAuthors: loadAuthors,
     saveCourse: saveCourse,
-    deleteCourse : deleteCourse
+    deleteCourse: deleteCourse
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);
