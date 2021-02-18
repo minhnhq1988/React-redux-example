@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { loadCourses, saveCourse } from '../../redux/actions/courseActions';
+import { loadCourses, saveCourse, deleteCourse, deleteCourseSuccess } from '../../redux/actions/courseActions';
 import { loadAuthors } from '../../redux/actions/authorAction';
 import CourseForm from './CourseForm';
 import { newCourse } from '../../mockupData';
@@ -13,6 +13,7 @@ function ManageCoursePage({
     loadAuthors,
     loadCourses,
     saveCourse,
+    deleteCourse,
     history,
     ...props }) {
     const [course, setCourse] = useState({ ...props.course });
@@ -53,8 +54,18 @@ function ManageCoursePage({
             setSaving(false);
             setErrors({ onSave: error.message });
         });
-
     }
+
+    function handleDelete(event){
+        event.preventDefault();
+        deleteCourse(course).then(()=>{
+            toast.success("Course deleted.");
+            history.push("/courses");
+        }).catch(error =>{
+            throw error;
+        });
+    }
+
     return (
         authors.length === 0 || courses.length === 0
             ? <Spinner />
@@ -64,6 +75,7 @@ function ManageCoursePage({
                 errors={errors}
                 onChange={handleChange}
                 onSave={handleSave}
+                onDelete ={handleDelete}
                 saving={saving} />)
 
     );
@@ -88,5 +100,6 @@ const mapDispatchToProps = {
     loadCourses: loadCourses,
     loadAuthors: loadAuthors,
     saveCourse: saveCourse,
+    deleteCourse : deleteCourse
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);

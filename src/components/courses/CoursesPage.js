@@ -49,6 +49,7 @@ class CoursesPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+    debugger;
     return {
         courses: state.authors.length === 0
             ? []

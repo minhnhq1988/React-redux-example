@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import TextInput from "../common/TextInput";
 import SelectInput from "../common/SelectInput";
+import { Link } from 'react-router-dom';
 
 const CourseForm = ({
   course,
@@ -9,6 +10,7 @@ const CourseForm = ({
   onSave,
   onChange,
   saving = false,
+  onDelete,
   errors = {}
 }) => {
   return (
@@ -51,6 +53,10 @@ const CourseForm = ({
       <button type="submit" disabled={saving} className="btn btn-primary">
         {saving ? "Saving..." : "Save"}
       </button>
+      <button type="button" onClick={onDelete} disabled={saving} className="btn btn-warning ml-3">
+        Delete
+      </button>
+      <Link className="btn btn-default btn-link ml-3" to="/courses" value="Cancel">Cancel</Link>
     </form>
   );
 };
